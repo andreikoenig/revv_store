@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :products
+  resources :products, only: [:index]
 
-  resources :orders
+  resources :orders, only: [:create]
   get 'orders/success'
   get 'orders/cancel'
 
