@@ -27,7 +27,7 @@
             <li>Email support</li>
             <li>Help center access</li>
           </ul>
-          <%= button_to "Click here to purchase", orders_path, {method: 'post', remote: true, class: 'btn btn-lg btn-block btn-outline-primary', params: { product_id: product.id } } %>
+          <%= button_to "Click here to purchase", orders_path, {method: 'post', class: 'btn btn-lg btn-block btn-outline-primary', params: { product_id: product.id } } %>
         </div>
         </div>
       <% end %>
