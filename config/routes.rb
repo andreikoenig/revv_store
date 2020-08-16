@@ -4,5 +4,4 @@ Rails.application.routes.draw do
   resources :orders, only: [:create]
   get 'orders/success'
   get 'orders/cancel'
-
 end
