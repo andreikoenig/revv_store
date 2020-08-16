@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   def create
+    puts params
   end
 
   def success
