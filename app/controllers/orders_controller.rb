@@ -30,12 +30,14 @@ class OrdersController < ApplicationController
     payment_intent = session.payment_intent
 
     @order = Order.find_by(session_id: session.id)
+    @product = @order.product
+
     customer = Stripe::Customer.retrieve(session.customer)
 
     # Update PaymentIntent's metadata to include product name and revv store order id
     Stripe::PaymentIntent.update(
       payment_intent,
-      {metadata: {order_id: @order.id, product_name: @order.product.name }}
+      {metadata: {order_id: @order.id, product_name: @product.name }}
     )
 
     @order.update(payment_intent_id: payment_intent, customer_email: customer.email, status: "Complete")

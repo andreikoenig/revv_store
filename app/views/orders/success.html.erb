@@ -1,2 +1,16 @@
-<%= @order.customer_email %>
-<%= @order %>
+
+<div class="jumbotron text-center">
+  <h1 class="display-3">Thank you for your order!</h1>
+  <p>Email confirmation will be sent shortly to <%= @order.customer_email %>.</p>
+  <p>Here are the details of your order:</p>
+  <p>Revv Order Number: <%= @order.id %></p>
+  <p>Transaction Number: <%= @order.payment_intent_id %></p>
+  <p><%= @product.name %> : <%= (@product.price * 0.01).to_s + "0" %></p> 
+  <hr>
+  <p>
+    Having trouble? <a href="">Contact us</a>
+  </p>
+  <p>
+    <%=link_to "Revv Store", root_path %>
+  </p>
+</div>
