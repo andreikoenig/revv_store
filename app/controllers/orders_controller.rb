@@ -1,9 +1,8 @@
 class OrdersController < ApplicationController
   def create
-    @product = Product.find(params['product_id'])
+    product = Product.find(params['product_id'])
 
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
-    puts Stripe.api_key
 
     @session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
@@ -11,10 +10,10 @@ class OrdersController < ApplicationController
         price_data: {
           currency: 'usd',
           product_data: {
-            name: @product.name,
-            description: @product.description
+            name: product.name,
+            description: product.description
           },
-          unit_amount: @product.price,
+          unit_amount: product.price,
         },
         quantity: 1,
       }],
@@ -23,11 +22,15 @@ class OrdersController < ApplicationController
       cancel_url: orders_cancel_url
     )
 
-    puts 'sessionId: ' + @session.id
+    Order.create(session_id: @session.id, product_id: product.id, status: "Incomplete")
   end
 
   def success
-    binding.pry
+    session = Stripe::Checkout::Session.retrieve(params['session_id'])
+    @order = Order.find_by(session_id: session.id)
+    customer = Stripe::Customer.retrieve(session.customer)
+
+    @order.update(payment_intent_id: session.payment_intent, customer_email: customer.email)
   end
 
   def cancel
