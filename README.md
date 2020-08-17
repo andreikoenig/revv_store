@@ -1,24 +1,25 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+App flow:
+1. View list of products for purchase at root url
+2. Click to buy a product using Stripe Checkout flow
+3. Stripe session is created, and in db initial order record is created with session id
+4. Finish checkout process using a credit card (42424242....)
+5. Order is updated with customer email, payment_intent_id, and status('Complete')
+6. PaymentIntent is updated in stripe with metadata containing order id and product name
+3. Confirmation page is shown with the summary of the order.
 
-Things you may want to cover:
+Notes: went with PaymentIntent instead of Charge ID based on this: https://stripe.com/docs/payments/payment-intents/migration/charges, and the session from Stripe Checkout flow returns payment_intent_id.
 
-* Ruby version
 
-* System dependencies
+To run the repo locally:
 
-* Configuration
+1. Clone repo
+2. `bundle install`
+3. `rails db:migrate`
+4. `rails db:seed`
+5. `rails s`
 
-* Database creation
 
-* Database initialization
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
