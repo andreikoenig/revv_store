@@ -19,12 +19,15 @@ class OrdersController < ApplicationController
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: orders_success_url,
+      success_url: orders_success_url + '?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: orders_cancel_url
     )
+
+    puts 'sessionId: ' + @session.id
   end
 
   def success
+    binding.pry
   end
 
   def cancel
