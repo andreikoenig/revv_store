@@ -7,7 +7,7 @@ App flow:
 4. Finish checkout process using a credit card (42424242....)
 5. Order is updated with customer email, payment_intent_id, and status('Complete')
 6. PaymentIntent is updated in stripe with metadata containing order id and product name
-3. Confirmation page is shown with the summary of the order.
+7. Confirmation page is shown with the summary of the order.
 
 Notes: went with PaymentIntent instead of Charge ID based on this: https://stripe.com/docs/payments/payment-intents/migration/charges, and the session from Stripe Checkout flow returns payment_intent_id.
 
@@ -18,7 +18,9 @@ To run the repo locally:
 2. `bundle install`
 3. `rails db:migrate`
 4. `rails db:seed`
-5. `rails s`
+5. `export STRIPE_PUBLISHABLE_KEY=from_stripe_dashboard`
+6. `export STRIPE_SECRET_KEY=from_stripe_dashboard`
+7. `rails s`
 
 
 
