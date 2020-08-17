@@ -30,9 +30,10 @@ class OrdersController < ApplicationController
     @order = Order.find_by(session_id: session.id)
     customer = Stripe::Customer.retrieve(session.customer)
 
-    @order.update(payment_intent_id: session.payment_intent, customer_email: customer.email)
+    @order.update(payment_intent_id: session.payment_intent, customer_email: customer.email, status: "Complete")
   end
 
   def cancel
+    redirect_to root_path
   end
 end
