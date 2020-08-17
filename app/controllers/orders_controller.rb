@@ -27,10 +27,18 @@ class OrdersController < ApplicationController
 
   def success
     session = Stripe::Checkout::Session.retrieve(params['session_id'])
+    payment_intent = session.payment_intent
+
     @order = Order.find_by(session_id: session.id)
     customer = Stripe::Customer.retrieve(session.customer)
 
-    @order.update(payment_intent_id: session.payment_intent, customer_email: customer.email, status: "Complete")
+    # Update PaymentIntent's metadata to include product name and revv store order id
+    Stripe::PaymentIntent.update(
+      payment_intent,
+      {metadata: {order_id: @order.id, product_name: @order.product.name }}
+    )
+
+    @order.update(payment_intent_id: payment_intent, customer_email: customer.email, status: "Complete")
   end
 
   def cancel
